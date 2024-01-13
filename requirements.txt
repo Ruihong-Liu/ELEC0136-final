@@ -1,0 +1,7 @@
+requests
+pymongo
+matplotlib
+pandas
+datetime
+mplfinance
+holidays

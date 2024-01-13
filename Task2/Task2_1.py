@@ -1,5 +1,6 @@
 import pymongo
-def up_mongoDB():
+from pymongo import MongoClient
+def up_mongoDB(stock_data,news_data):
     ## URL of my MongoDB and test if I could connect it
     url='mongodb+srv://sui1223:Lrh118828769@cluster0.4axd2vy.mongodb.net/?retryWrites=true&w=majority'
     client = pymongo.MongoClient(url)
@@ -10,9 +11,13 @@ def up_mongoDB():
         print(e)
     ## create a database called StockPrice and name the collection Microsoft
     db=client.StockPrice
+    db2=client.Newsdata
     ## initialise the Mongodb database and ready to collect any datas
     db.collection.drop()
+    db2.collect.drop()
     Microsofts=db.Microsoft
-
+    Microsofts_news=db2.MicrosoftNews
     insert_result = Microsofts.insert_one(stock_data)
-    print("Data Inserted, ID:", insert_result.inserted_id)
+    insert_result2=Microsofts_news.insert_one(news_data)
+    print("Stock Data Inserted, ID:", insert_result.inserted_id)
+    print("News Data Inserted, ID:", insert_result2.inserted_id)
