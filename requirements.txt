@@ -1,7 +1,12 @@
 requests
 pymongo
+flask
 matplotlib
 pandas
 datetime
 mplfinance
 holidays
+seaborn
+scikit-learn
+tensorflow
+statsmodels
