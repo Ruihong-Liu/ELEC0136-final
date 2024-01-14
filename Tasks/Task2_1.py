@@ -13,11 +13,12 @@ def up_mongoDB(stock_data,news_data):
     db=client.StockPrice
     db2=client.Newsdata
     ## initialise the Mongodb database and ready to collect any datas
-    db.collection.drop()
-    db2.collect.drop()
     Microsofts=db.Microsoft
     Microsofts_news=db2.MicrosoftNews
+    Microsofts.delete_many({}) #delete all the data in the collection
+    Microsofts_news.delete_many({})
     insert_result = Microsofts.insert_one(stock_data)
     insert_result2=Microsofts_news.insert_one(news_data)
+    ## print the ID of saving action
     print("Stock Data Inserted, ID:", insert_result.inserted_id)
     print("News Data Inserted, ID:", insert_result2.inserted_id)
