@@ -36,31 +36,3 @@ def plot_volume_time(filtered_data,path):
     plt.legend()
     plt.savefig(path)
 
-#plot the boxplot of price
-def plot_price_boxplot(filtered_data,path):
-    plt.figure(figsize=(10, 6))
-    plt.boxplot([filtered_data['Open'], filtered_data['High'], filtered_data['Low'], filtered_data['Close']],
-                labels=['Open', 'High', 'Low', 'Close'])
-    plt.title('Boxplot for Open, High, Low, and Close Prices')
-    plt.ylabel('Price')
-    plt.savefig(path)
-
-#plot the qq plot of close price
-def qq_plot(filtered_data,path):
-    plt.figure(figsize=(6, 6))
-    stats.probplot(filtered_data['Close'], dist="norm", plot=plt)
-    plt.title('Q-Q Plot of Close')
-    plt.ylabel('Quantiles of Close')
-    plt.xlabel('Theoretical Quantiles')
-    plt.savefig(path)
-
-#plot the scatter plot of volume and close price
-def scatter_plot_volume_close(data,path):
-    plt.figure(figsize=(10, 6))
-    plt.scatter(data['Volume'], data['Close'], alpha=0.3, color='red', label='Volume vs. Close')
-    plt.title('Scatter Plot of Volume and Close Price')
-    plt.xlabel('Volume')
-    plt.ylabel('Close Price')
-    plt.grid(True)
-    plt.legend()
-    plt.savefig(path)
