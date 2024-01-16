@@ -10,3 +10,4 @@ def main1():
     stock_data = aqu_stock_data(symbol,api_key)
     news_data = get_news_data(symbol,api_key)
     return stock_data,news_data
+main1()
