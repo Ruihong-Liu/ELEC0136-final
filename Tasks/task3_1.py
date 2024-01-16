@@ -24,12 +24,12 @@ def load_MongoDB_news():
     client = MongoClient("mongodb+srv://sui1223:Lrh118828769@cluster0.4axd2vy.mongodb.net/?retryWrites=true&w=majority")
     db=client["Newsdata"]
     collection=db["MicrosoftNews"]
-    news=collection.find({})
+    news=collection.find()
     # save the data as a list
-    news_list = list(news)
-    news_df = pd.DataFrame(news_list)
-    print(news_df)
-    return news_df
+    news_info = {}
+    for info in news:
+       news_info=info
+    return news_info
 
 # function used to filter the stock data from 2019-04-01 to 2023-03-31
 def filter_stock_data(stock_price):
@@ -49,6 +49,28 @@ def filter_stock_data(stock_price):
     end_date = '2023-03-31'
     filtered_data = df_sorted.loc[start_date:end_date]
     return filtered_data
+# 
+def news_data_clean(news_info):
+    # get feed only from the dictionary
+    news_info_feed = news_info.get("feed", {})
+    news_info_feed = pd.DataFrame(news_info_feed)
+    column_names = news_info_feed.columns
+    columns_needed=['title',"url","time_published",'summary','overall_sentiment_score','ticker_sentiment']
+    clean_df = pd.DataFrame()
+    for column in columns_needed:
+        clean_df[column] = news_info_feed[column]
+    clean_df.set_index("time_published", inplace=True)
+    clean_df.index = pd.to_datetime(clean_df.index)
+    clean_df['ticker_sentiment']
+    return clean_df
+
+def extract_msft_relevance(ticker_sentiment):
+    msft_relevance_scores = []
+    for row in ticker_sentiment:
+        msft_score = next((item['relevance_score'] for item in row if item['ticker'] == 'MSFT'), None)
+        msft_relevance_scores.append(msft_score)
+    return msft_relevance_scores
+
 
 # function used to check if there is any missing data
 def missing_check(Filtered_data):
@@ -88,5 +110,4 @@ def reconstucted_data(filtered_data):
     resampled_data = filtered_data.resample('D').asfreq()
     interpolated_data = resampled_data.interpolate(method='linear')
     return interpolated_data
-
 
