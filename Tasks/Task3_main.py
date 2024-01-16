@@ -1,4 +1,5 @@
-from task3_1 import load_MongoDB_stock,filter_stock_data,missing_check,check_holidays_weekend,none_data_check,reconstucted_data
+from task3_1 import load_MongoDB_stock,filter_stock_data,missing_check,check_holidays_weekend,extract_msft_relevance
+from task3_1 import none_data_check,reconstucted_data,news_data_clean,load_MongoDB_news
 from task3_2 import plot_stock_data,plot_volume_time
 from task3_3 import normalize_data,pca
 
@@ -38,4 +39,16 @@ data_norm_recon=normalize_data(reconstucted)
 pca(data_norm_ori)
 #pca analysis normalized reconstructed data
 pca(data_norm_recon)
-
+# for later task usage
+def load_news_data_clean():
+    #load news data from MongoDB
+    news_df=load_MongoDB_news()
+    #clean the news data
+    clean_df=news_data_clean(news_df)
+    #extract msft relevance score
+    clean_df['msft_relevance_score'] = extract_msft_relevance(clean_df['ticker_sentiment'])
+    print(clean_df)
+    return news_df,clean_df
+# load news data
+news_df,clean_df=load_news_data_clean()
+print(clean_df)
