@@ -1,13 +1,7 @@
-from task3_1 import filter_stock_data,load_MongoDB_stock
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from scipy import stats
-# load stock data from MongoDB
-stock_price=load_MongoDB_stock()
-#filter stock data from 2019-04-01 to 2023-03-31
-Filtered_data=filter_stock_data(stock_price)
-#plot the origional data with line of the best fit to show the trend
 def plot_stock_data(filtered_data,path):
     plt.figure(figsize=(10, 6))
     plt.plot(filtered_data['Open'], label='Open')
@@ -28,7 +22,7 @@ def plot_stock_data(filtered_data,path):
 #plot the volume data
 def plot_volume_time(filtered_data,path):
     plt.figure(figsize=(10, 6))
-    plt.plot(filtered_data['Volume'], label='Volume')
+    plt.bar(filtered_data.index, filtered_data['Volume'], label='Volume')
     plt.grid(True)
     plt.title('Volume Data')
     plt.xlabel('Date')
