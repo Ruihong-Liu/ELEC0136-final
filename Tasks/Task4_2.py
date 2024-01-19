@@ -23,6 +23,7 @@ def plot_OBV(df,path):
     plt.legend()
     plt.grid(True)
     plt.savefig(path)
+    return df
 
 def plot_A_D(df,path):
     # calculate A/D line
@@ -51,7 +52,6 @@ def plot_Average_Directional_Index(df, path):
 
     # add A/D line to dataframe
     df['AD_Line'] = ad_line
-
     # plot A/D line
     plt.figure(figsize=(10, 6))
     plt.plot(df.index, df['AD_Line'], label='Accumulation/Distribution Line')
@@ -61,7 +61,6 @@ def plot_Average_Directional_Index(df, path):
     plt.legend()
     plt.grid(True)
     plt.savefig(path)
-
 def plot_Aroon_Indicator(df,path):
     N = 30
     # calculate Aroon Up and Down
@@ -93,7 +92,6 @@ def plot_MACD(df,path):
     plt.plot(df.index, df['Close'], label='Close Price')
     plt.title('Stock Close Price')
     plt.legend()
-
     plt.subplot(2, 1, 2)
     plt.plot(df.index, df['MACD_Line'], label='MACD Line')
     plt.plot(df.index, df['Signal_Line'], label='Signal Line')
@@ -101,6 +99,7 @@ def plot_MACD(df,path):
     plt.title('Moving Average Convergence Divergence (MACD)')
     plt.legend()
     plt.savefig(path)
+    return df
 
 def plot_Relative_Strength_Index(df,path):
     # calculate difference in price from previous day
