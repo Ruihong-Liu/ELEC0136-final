@@ -1,35 +1,39 @@
-from flask import Flask, jsonify, request
-from pymongo import MongoClient
-import bson
+import pymongo
+url='mongodb+srv://sui1223:Lrh118828769@cluster0.4axd2vy.mongodb.net/?retryWrites=true&w=majority'
+client = pymongo.MongoClient(url)
+db = client['StockPrice']
+def Create(collection,data):
+    collection = db['Microsoft']
+    try:
+        collection.insert_one(data)
+        print('Create Success')
+        return True
+    except Exception as e:
+        print(e)
 
-app = Flask(__name__)
-client = MongoClient('your_mongodb_url')
-db = client['your_database']
+def Read(collection,query):
+    collection = db['Microsoft']
+    try:
+        data=[]
+        for i in collection.find(query):
+            data.append(i)
+            print(i)
+        return data
+    except Exception as e:
+        print(e)
 
-@app.route('/create', methods=['POST'])
-def create():
-    item = request.json
-    result = db['your_collection'].insert_one(item)
-    return jsonify(success=bool(result.inserted_id)), 201
+def Update(collection,query,new_value):
+    collection = db['Microsoft']
+    try:
+        collection.update_one(query,{'$set':new_value})
+        print('Update Success')
+    except Exception as e:
+        print(e)
 
-@app.route('/read', methods=['GET'])
-def read():
-    query = request.args.get('query')
-    items = list(db['your_collection'].find({'$text': {'$search': query}}))
-    return jsonify(items), 200
-
-@app.route('/update', methods=['PATCH'])
-def update():
-    item_id = request.json.get('id')
-    properties = request.json.get('properties')
-    result = db['your_collection'].update_one({'_id': bson.ObjectId(item_id)}, {'$set': properties})
-    return jsonify(success=result.modified_count > 0), 200
-
-@app.route('/delete', methods=['DELETE'])
-def delete():
-    item_id = request.args.get('id')
-    result = db['your_collection'].delete_one({'_id': bson.ObjectId(item_id)})
-    return jsonify(success=bool(result.deleted_count)), 200
-
-if __name__ == '__main__':
-    app.run(debug=True)
+def Delete(collection,id):
+    collection = db['Microsoft']
+    try:
+        collection.delete_one(id)
+        print('Delete Success')
+    except Exception as e:
+        print(e)
