@@ -1,5 +1,3 @@
-from task3_2 import plot_stock_data
-from task3_1 import reconstucted_data,load_MongoDB_stock,filter_stock_data
 from statsmodels.tsa.seasonal import seasonal_decompose
 import matplotlib.pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
@@ -9,36 +7,27 @@ import pandas as pd
 from datetime import timedelta
 from scipy.stats import linregress
 from scipy import stats
-# save work in future
-def data_load_filter_reconstruct():
-    # load stock data from MongoDB
-    stock_price=load_MongoDB_stock()
-    #filter stock data from 2019-04-01 to 2023-03-31
-    Filtered_data=filter_stock_data(stock_price)
-    #reconstruct the data
-    data=reconstucted_data(Filtered_data)
-    return data
 # plot the trend analysis for n days
 def trend_analysis_30days(data,days,path):
     # Calculate the moving average
     data['Moving_Avg'] = data['Volume'].rolling(window=days).mean()
     # Plotting the Volume and its Moving Average
     plt.figure(figsize=(10, 6))
-    plt.plot(data['Volume'], label='Volume')
+    plt.plot(data['Close'], label='Close Price', color='blue')
     plt.plot(data['Moving_Avg'], label='30-Day Moving Average', color='red')
     plt.legend()
     plt.savefig(path)
 # plot the seasonal analysis
 def seasonal_analysis(data,path):
     # Decompose the time series
-    decomposed = seasonal_decompose(data['Volume'], model='additive', period=365)
+    decomposed = seasonal_decompose(data['Close'], model='additive', period=365)
     # Plotting the decomposed components
     decomposed.plot()
     plt.savefig(path)
 # plot the noise analysis using ARIMA
 def noise_analysis1(data,path):
     #noise analysis using ARIMA
-    model = ARIMA(data['Volume'], order=(5,1,0))
+    model = ARIMA(data['Close'], order=(5,1,0))
     model_fit = model.fit()
     # residuals
     residuals = model_fit.resid
@@ -50,11 +39,11 @@ def noise_analysis1(data,path):
 # plot the noise analysis using resample
 def noise_analysis2(data,path):
     # resample monthly
-    monthly_data = data['Volume'].resample('M').mean()
+    monthly_data = data['Close'].resample('M').mean()
     # plot monthly data
     plt.figure(figsize=(10, 6))
     plt.plot(monthly_data)
-    plt.title('monthly sales volume data')
+    plt.title('monthly sales Close data')
     plt.savefig(path)
 
 #plot the boxplot of price
