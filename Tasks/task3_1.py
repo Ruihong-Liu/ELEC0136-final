@@ -32,7 +32,7 @@ def load_MongoDB_news():
     return news_info
 
 # function used to filter the stock data from 2019-04-01 to 2023-03-31
-def filter_stock_data(stock_price):
+def filter_stock_data(stock_price,start_date,end_date):
     # only take time series data from the dictionary
     time_series = stock_price.get("Time Series (Daily)", {})
     # Convert time series data to DataFrame
@@ -45,9 +45,8 @@ def filter_stock_data(stock_price):
     # sort data by time
     df_sorted = df.sort_index()
     # Filter the data for outliers
-    start_date = '2019-04-01'
-    end_date = '2023-03-31'
     filtered_data = df_sorted.loc[start_date:end_date]
+    print(filtered_data)
     return filtered_data
 # 
 def news_data_clean(news_info):
